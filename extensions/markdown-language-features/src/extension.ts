@@ -6,6 +6,7 @@
 import * as vscode from 'vscode';
 import { CommandManager } from './commandManager';
 import * as commands from './commands/index';
+import MarkdownEmojiProvider from './features/completionProvider';
 import LinkProvider from './features/documentLinkProvider';
 import MDDocumentSymbolProvider from './features/documentSymbolProvider';
 import MarkdownFoldingProvider from './features/foldingProvider';
@@ -16,9 +17,8 @@ import { Logger } from './logger';
 import { MarkdownEngine } from './markdownEngine';
 import { getMarkdownExtensionContributions } from './markdownExtensions';
 import { ExtensionContentSecurityPolicyArbiter, PreviewSecuritySelector } from './security';
-import { loadDefaultTelemetryReporter } from './telemetryReporter';
 import { githubSlugifier } from './slugify';
-
+import { loadDefaultTelemetryReporter } from './telemetryReporter';
 
 export function activate(context: vscode.ExtensionContext) {
 	const telemetryReporter = loadDefaultTelemetryReporter();
@@ -44,6 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerDocumentLinkProvider(selector, new LinkProvider()));
 	context.subscriptions.push(vscode.languages.registerFoldingRangeProvider(selector, new MarkdownFoldingProvider(engine)));
 	context.subscriptions.push(vscode.languages.registerWorkspaceSymbolProvider(new MarkdownWorkspaceSymbolProvider(symbolProvider)));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(selector, new MarkdownEmojiProvider(), ':'));
 
 	const previewSecuritySelector = new PreviewSecuritySelector(cspArbiter, previewManager);
 

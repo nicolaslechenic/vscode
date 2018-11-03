@@ -305,6 +305,7 @@
 		"build-preview": "webpack --mode development"
 	},
 	"dependencies": {
+		"emojilib": "^2.3.0",
 		"highlight.js": "9.12.0",
 		"markdown-it": "^8.4.1",
 		"vscode-extension-telemetry": "0.1.0",
